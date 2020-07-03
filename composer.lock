@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b6e0984770e33d21d0c3b1cfd0723b26",
+    "content-hash": "607f798c78c11248f84192e2fe9bb7fe",
     "packages": [
         {
             "name": "ang3/php-odoo-api-client",

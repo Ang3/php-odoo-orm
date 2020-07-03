@@ -12,11 +12,11 @@
     "require": {
         "php": "^7.2",
         "ang3/php-odoo-api-client": "^5.1.2",
-        "symfony/cache": "^4.4 || ^5.0",
-        "ocramius/proxy-manager": "^2.8",
+        "symfony/cache": "^4.2 || ^5.0",
+        "ocramius/proxy-manager": "^2.1.1 || ^2.2",
         "doctrine/annotations": "^1.10",
-        "symfony/property-access": "^4.4 || ^5.0",
-        "symfony/serializer": "^4.4 || ^5.0"
+        "symfony/property-access": "^4.2 || ^5.0",
+        "symfony/serializer": "^4.2 || ^5.0"
     },
     "require-dev": {
         "ang3/php-dev-binaries": "^1.0"
