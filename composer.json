@@ -18,10 +18,6 @@
         "symfony/property-access": "^3.4 || ^4.0 || ^5.0",
         "symfony/serializer": "^3.4 || ^4.0 || ^5.0"
     },
-    "require-dev": {
-        "roave/security-advisories": "dev-master",
-        "ang3/php-dev-binaries": "^1.0"
-    },
     "autoload": {
         "psr-4": {
             "Ang3\\Component\\Odoo\\ORM\\": "src/"
