@@ -67,8 +67,8 @@ class ClassMetadataFactory
         $cache = $this->objectManager
             ->getConfiguration()
             ->getMetadataCache();
-        $cacheKey = s($reflectionClass->getName())
-            ->replaceMatches('#[^a-zA-Z0-9]+#', '_')
+        $cacheKey = s(sprintf('%s.%s', $this->objectManager->getClient()->getIdentifier(), $reflectionClass->getName()))
+            ->replaceMatches('#[^a-zA-Z0-9_]+#', '_')
             ->toString();
 
         try {
