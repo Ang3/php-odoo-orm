@@ -156,6 +156,6 @@ class ClassMetadata
 
     public function isTransient(): bool
     {
-        return null === $this->transient;
+        return true === $this->transient;
     }
 }
