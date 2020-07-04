@@ -4,68 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfacacee67200be311eae855ede05377",
+    "content-hash": "c581dcee83b347e0cf597cbe6d31641c",
     "packages": [
-        {
-            "name": "ang3/php-odoo-api-client",
-            "version": "v5.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Ang3/php-odoo-api-client.git",
-                "reference": "cf92a5fbd31413a5685eed25f6f497775da48a8d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Ang3/php-odoo-api-client/zipball/cf92a5fbd31413a5685eed25f6f497775da48a8d",
-                "reference": "cf92a5fbd31413a5685eed25f6f497775da48a8d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "php": ">=7.2",
-                "phpxmlrpc/phpxmlrpc": "^4.0",
-                "symfony/serializer": ">=3.2.0"
-            },
-            "require-dev": {
-                "ang3/php-dev-binaries": "^1.0",
-                "phpunit/phpunit": "^7.0",
-                "roave/security-advisories": "dev-master",
-                "symfony/inflector": ">=3.2.0",
-                "symfony/property-info": ">=3.2.0",
-                "symfony/var-dumper": ">=3.2.0"
-            },
-            "type": "component",
-            "autoload": {
-                "psr-4": {
-                    "Ang3\\Component\\Odoo\\": "src/",
-                    "Ang3\\Component\\Odoo\\Tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Joanis ROUANET",
-                    "email": "joanis.ang3@gmail.com",
-                    "homepage": "https://github.com/Ang3"
-                }
-            ],
-            "description": "Odoo API client",
-            "keywords": [
-                "12",
-                "13",
-                "api",
-                "builder",
-                "client",
-                "domain",
-                "odoo",
-                "operation"
-            ],
-            "time": "2020-06-30T11:30:40+00:00"
-        },
         {
             "name": "doctrine/annotations",
             "version": "1.10.3",
@@ -533,57 +473,6 @@
                 }
             ],
             "time": "2020-04-13T14:42:16+00:00"
-        },
-        {
-            "name": "phpxmlrpc/phpxmlrpc",
-            "version": "4.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/gggeek/phpxmlrpc.git",
-                "reference": "9b400d2c102f2a55839af8f73279274ebe148526"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/9b400d2c102f2a55839af8f73279274ebe148526",
-                "reference": "9b400d2c102f2a55839af8f73279274ebe148526",
-                "shasum": ""
-            },
-            "require": {
-                "ext-xml": "*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "codeclimate/php-test-reporter": "dev-master",
-                "docbook/docbook-xsl": "~1.78",
-                "ext-curl": "*",
-                "ext-mbstring": "*",
-                "indeyets/pake": "~1.99",
-                "phpunit/phpunit": ">=4.0.0, <6.0.0",
-                "phpunit/phpunit-selenium": "*",
-                "sami/sami": "~3.1"
-            },
-            "suggest": {
-                "ext-curl": "Needed for HTTPS and HTTP 1.1 support, NTLM Auth etc...",
-                "ext-mbstring": "Needed to allow reception of requests/responses in character sets other than ASCII,LATIN-1,UTF-8",
-                "ext-zlib": "Needed for sending compressed requests and receiving compressed responses, if cURL is not available"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PhpXmlRpc\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "A php library for building xmlrpc clients and servers",
-            "homepage": "http://gggeek.github.io/phpxmlrpc/",
-            "keywords": [
-                "webservices",
-                "xmlrpc"
-            ],
-            "time": "2020-03-04T10:26:33+00:00"
         },
         {
             "name": "psr/cache",

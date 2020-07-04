@@ -11,7 +11,6 @@
     ],
     "require": {
         "php": "^7.2",
-        "ang3/php-odoo-api-client": "^5.1.2",
         "symfony/cache": "^3.4 || ^4.0 || ^5.0",
         "ocramius/proxy-manager": "^1.0 || ^2.0",
         "doctrine/annotations": "^1.0",
