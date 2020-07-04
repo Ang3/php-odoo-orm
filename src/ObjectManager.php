@@ -10,7 +10,6 @@ use Ang3\Component\Odoo\ORM\Mapping\ClassMetadata;
 use Ang3\Component\Odoo\ORM\Mapping\ClassMetadataFactory;
 use Ang3\Component\Odoo\ORM\Schema\Schema;
 use Doctrine\Common\Annotations\Reader;
-use Symfony\Contracts\Cache\CacheInterface;
 
 class ObjectManager
 {
@@ -18,14 +17,16 @@ class ObjectManager
 
     private $client;
     private $schema;
+    private $configuration;
     private $classMetadataFactory;
     private $unitOfWork;
 
-    public function __construct(Client $client, Reader $reader, CacheInterface $cache = null)
+    public function __construct(Client $client, Configuration $configuration, Reader $reader)
     {
         $this->client = $client;
+        $this->configuration = $configuration;
         $this->classMetadataFactory = new ClassMetadataFactory($this, $reader);
-        $this->schema = new Schema($this, $cache);
+        $this->schema = new Schema($this);
         $this->unitOfWork = new UnitOfWork($this);
     }
 
@@ -98,6 +99,11 @@ class ObjectManager
     public function getClient(): Client
     {
         return $this->client;
+    }
+
+    public function getConfiguration(): Configuration
+    {
+        return $this->configuration;
     }
 
     public function getSchema(): Schema

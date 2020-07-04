@@ -7,15 +7,22 @@ use Ang3\Component\Odoo\ORM\Exception\RuntimeException;
 use Ang3\Component\Odoo\ORM\Internal\ReflectorAwareTrait;
 use Ang3\Component\Odoo\ORM\ObjectManager;
 use Doctrine\Common\Annotations\Reader;
+use Psr\Cache\InvalidArgumentException;
 use ReflectionClass;
+use function Symfony\Component\String\s;
 
 class ClassMetadataFactory
 {
     use ReflectorAwareTrait;
 
     private $objectManager;
-    private $classMetadataRegistry;
+    private $metadataLoader;
     private $reader;
+
+    /**
+     * @var array<string, ClassMetadata>
+     */
+    private $models = [];
 
     /**
      * @throws RuntimeException on cache failure
@@ -23,8 +30,22 @@ class ClassMetadataFactory
     public function __construct(ObjectManager $objectManager, Reader $reader)
     {
         $this->objectManager = $objectManager;
-        $this->classMetadataRegistry = new ClassMetadataRegistry();
+        $this->metadataLoader = new MetadataLoader($this);
         $this->reader = $reader;
+    }
+
+    /**
+     * @throws MappingException when no class metadata found for the model
+     */
+    public function resolveClassMetadata(string $modelName): ClassMetadata
+    {
+        $classMetadata = $this->models[$modelName] ?? null;
+
+        if (!$classMetadata) {
+            throw MappingException::modelNotSupported($modelName);
+        }
+
+        return $classMetadata;
     }
 
     /**
@@ -42,67 +63,21 @@ class ClassMetadataFactory
 
         $reflectionClass = self::getReflector()->getClass($subject);
 
-        if ($classMetadata = $this->classMetadataRegistry->get($reflectionClass->getName())) {
-            return $classMetadata;
+        $factory = $this;
+        $cache = $this->objectManager
+            ->getConfiguration()
+            ->getMetadataCache();
+        $cacheKey = s($reflectionClass->getName())
+            ->replaceMatches('#[^a-zA-Z0-9]+#', '_')
+            ->toString();
+
+        try {
+            return $cache->get($cacheKey, function () use ($factory, $subject) {
+                return $factory->loadClassMetadata($subject);
+            });
+        } catch (InvalidArgumentException $e) {
+            throw new RuntimeException(sprintf('Failed to retrieve class metadata cache entry at key "%s"', $cacheKey), 0, $e);
         }
-
-        $classMetadata = $this->loadClassMetadata($reflectionClass);
-        $this->classMetadataRegistry->register($classMetadata);
-
-        return $classMetadata;
-    }
-
-    /**
-     * Load metadata file classes and returns a new class metadata registry.
-     *
-     * @param string[]|string $paths
-     */
-    public function loadFiles($paths): ClassMetadataRegistry
-    {
-        $classMetadataRegistry = new ClassMetadataRegistry();
-
-        $paths = array_filter((array) $paths);
-        $classes = get_declared_classes();
-        [$loadedFiles, $loadedClasses] = [[], []];
-        $reflector = self::getReflector();
-
-        foreach ($paths as $path) {
-            $filename = realpath($path);
-
-            if (!$filename) {
-                throw new RuntimeException(sprintf('The path "%s" is not valid', $path));
-            }
-
-            foreach ($classes as $key => $className) {
-                $reflectionClass = $reflector->getClass($className);
-
-                if (in_array($reflectionClass->getName(), $loadedClasses, true)) {
-                    continue;
-                }
-
-                if ($reflectionClass->isAbstract() || $reflectionClass->isInterface()) {
-                    continue;
-                }
-
-                $classFilename = $reflectionClass->getFileName();
-
-                if (!$classFilename || in_array($classFilename, $loadedFiles, true)) {
-                    continue;
-                }
-
-                if (false === (0 === strpos($classFilename, $filename))) {
-                    continue;
-                }
-
-                $classMetadata = $this->loadClassMetadata($reflectionClass);
-                $classMetadataRegistry->register($classMetadata);
-
-                $loadedFiles[] = $classFilename;
-                $loadedClasses[] = $classMetadata->getClassName();
-            }
-        }
-
-        return $classMetadataRegistry;
     }
 
     /**
@@ -146,6 +121,8 @@ class ClassMetadataFactory
                 $propertyMetadata = new PropertyMetadata($classMetadata, $property, $field);
                 $classMetadata->addProperty($propertyMetadata);
             }
+
+            $this->models[$model->getName()] = $classMetadata;
         }
 
         return $classMetadata;
@@ -156,16 +133,9 @@ class ClassMetadataFactory
         return $this->objectManager;
     }
 
-    public function setClassMetadataRegistry(ClassMetadataRegistry $classMetadataRegistry): self
+    public function getMetadataLoader(): MetadataLoader
     {
-        $this->classMetadataRegistry = $classMetadataRegistry;
-
-        return $this;
-    }
-
-    public function getClassMetadataRegistry(): ClassMetadataRegistry
-    {
-        return $this->classMetadataRegistry;
+        return $this->metadataLoader;
     }
 
     public function getReader(): Reader

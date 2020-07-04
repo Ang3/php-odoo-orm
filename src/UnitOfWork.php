@@ -271,7 +271,9 @@ class UnitOfWork
 
     public function getTargetClassMetadata(PropertyMetadata $propertyMetadata): ClassMetadata
     {
-        return $this->resolveClassMetadata($this->getTargetModel($propertyMetadata));
+        return $this->objectManager
+            ->getClassMetadataFactory()
+            ->resolveClassMetadata($this->getTargetModel($propertyMetadata)->getName());
     }
 
     /**
@@ -305,23 +307,6 @@ class UnitOfWork
         return $this->objectManager
             ->getSchema()
             ->getModel($modelName);
-    }
-
-    /**
-     * @throws MappingException when no class found for the model
-     */
-    public function resolveClassMetadata(Model $model): ClassMetadata
-    {
-        $classMetadata = $this->objectManager
-            ->getClassMetadataFactory()
-            ->getClassMetadataRegistry()
-            ->resolve($model->getName());
-
-        if (!$classMetadata) {
-            throw MappingException::modelNotSupported($model->getName());
-        }
-
-        return $classMetadata;
     }
 
     /**
