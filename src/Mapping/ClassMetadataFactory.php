@@ -144,7 +144,7 @@ class ClassMetadataFactory
             }
 
             try {
-                $metadataCache->get($cacheKey, function() use($classMetadata) {
+                $classMetadata = $metadataCache->get($cacheKey, function () use ($classMetadata) {
                     return $classMetadata;
                 });
             } catch (InvalidArgumentException $e) {
