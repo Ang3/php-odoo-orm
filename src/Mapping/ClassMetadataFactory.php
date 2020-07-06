@@ -72,8 +72,8 @@ class ClassMetadataFactory
             ->toString();
 
         try {
-            return $cache->get($cacheKey, function () use ($factory, $subject) {
-                return $factory->loadClassMetadata($subject);
+            return $cache->get($cacheKey, function () use ($factory, $reflectionClass) {
+                return $factory->loadClassMetadata($reflectionClass);
             });
         } catch (InvalidArgumentException $e) {
             throw new RuntimeException(sprintf('Failed to retrieve class metadata cache entry at key "%s"', $cacheKey), 0, $e);
