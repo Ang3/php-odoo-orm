@@ -39,7 +39,18 @@ class ClassMetadataFactory
      */
     public function resolveClassMetadata(string $modelName): ClassMetadata
     {
-        $classMetadata = $this->models[$modelName] ?? null;
+        $cacheKey = $this->getModelClassMetadataCacheKey($modelName);
+
+        try {
+            $classMetadata = $this->objectManager
+                ->getConfiguration()
+                ->getMetadataCache()
+                ->get($cacheKey, function () {
+                    return null;
+                });
+        } catch (InvalidArgumentException $e) {
+            throw new RuntimeException(sprintf('Failed to retrieve class metadata cache entry at key "%s"', $cacheKey), 0, $e);
+        }
 
         if (!$classMetadata) {
             throw MappingException::modelNotSupported($modelName);
@@ -101,6 +112,9 @@ class ClassMetadataFactory
         ];
 
         $classMetadata = new ClassMetadata($reflectionClass, $modelName, $repositoryClass, $isTransient);
+        $metadataCache = $this->objectManager
+            ->getConfiguration()
+            ->getMetadataCache();
 
         if ($model) {
             $properties = $reflectionClass->getProperties();
@@ -122,10 +136,27 @@ class ClassMetadataFactory
                 $classMetadata->addProperty($propertyMetadata);
             }
 
-            $this->models[$model->getName()] = $classMetadata;
+            $cacheKey = $this->getModelClassMetadataCacheKey($modelName);
+
+            try {
+                $metadataCache->delete($cacheKey);
+            } catch (InvalidArgumentException $e) {
+            }
+
+            try {
+                $metadataCache->get($cacheKey, function() use($classMetadata) {
+                    return $classMetadata;
+                });
+            } catch (InvalidArgumentException $e) {
+            }
         }
 
         return $classMetadata;
+    }
+
+    private function getModelClassMetadataCacheKey(string $modelName): string
+    {
+        return sprintf('odoo_model.class_metadata.%s', $modelName);
     }
 
     public function getObjectManager(): ObjectManager
