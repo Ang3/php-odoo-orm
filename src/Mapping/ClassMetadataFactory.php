@@ -20,11 +20,6 @@ class ClassMetadataFactory
     private $reader;
 
     /**
-     * @var array<string, ClassMetadata>
-     */
-    private $models = [];
-
-    /**
      * @throws RuntimeException on cache failure
      */
     public function __construct(ObjectManager $objectManager, Reader $reader)
