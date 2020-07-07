@@ -7,9 +7,7 @@ use Ang3\Component\Odoo\ORM\Exception\RuntimeException;
 use Ang3\Component\Odoo\ORM\Internal\ReflectorAwareTrait;
 use Ang3\Component\Odoo\ORM\ObjectManager;
 use Doctrine\Common\Annotations\Reader;
-use Psr\Cache\InvalidArgumentException;
 use ReflectionClass;
-use function Symfony\Component\String\s;
 
 class ClassMetadataFactory
 {
@@ -18,6 +16,7 @@ class ClassMetadataFactory
     private $objectManager;
     private $metadataLoader;
     private $reader;
+    private $cache;
 
     /**
      * @throws RuntimeException on cache failure
@@ -27,6 +26,7 @@ class ClassMetadataFactory
         $this->objectManager = $objectManager;
         $this->metadataLoader = new MetadataLoader($this);
         $this->reader = $reader;
+        $this->cache = new MetadataCache($this);
     }
 
     /**
@@ -34,24 +34,13 @@ class ClassMetadataFactory
      */
     public function resolveClassMetadata(string $modelName): ClassMetadata
     {
-        $cacheKey = $this->getModelClassMetadataCacheKey($modelName);
+        $className = $this->cache->resolve($modelName);
 
-        try {
-            $classMetadata = $this->objectManager
-                ->getConfiguration()
-                ->getMetadataCache()
-                ->get($cacheKey, function () {
-                    return null;
-                });
-        } catch (InvalidArgumentException $e) {
-            throw new RuntimeException(sprintf('Failed to retrieve class metadata cache entry at key "%s"', $cacheKey), 0, $e);
-        }
-
-        if (!$classMetadata) {
+        if (!$className) {
             throw MappingException::modelNotSupported($modelName);
         }
 
-        return $classMetadata;
+        return $this->getClassMetadata($className);
     }
 
     /**
@@ -67,23 +56,12 @@ class ClassMetadataFactory
             return $subject;
         }
 
+        $factory = $this;
         $reflectionClass = self::getReflector()->getClass($subject);
 
-        $factory = $this;
-        $cache = $this->objectManager
-            ->getConfiguration()
-            ->getMetadataCache();
-        $cacheKey = s(sprintf('%s.%s', $this->objectManager->getClient()->getIdentifier(), $reflectionClass->getName()))
-            ->replaceMatches('#[^a-zA-Z0-9_]+#', '_')
-            ->toString();
-
-        try {
-            return $cache->get($cacheKey, function () use ($factory, $reflectionClass) {
-                return $factory->loadClassMetadata($reflectionClass);
-            });
-        } catch (InvalidArgumentException $e) {
-            throw new RuntimeException(sprintf('Failed to retrieve class metadata cache entry at key "%s"', $cacheKey), 0, $e);
-        }
+        return $this->cache->get($reflectionClass, function () use ($factory, $reflectionClass) {
+            return $factory->loadClassMetadata($reflectionClass);
+        });
     }
 
     /**
@@ -107,9 +85,6 @@ class ClassMetadataFactory
         ];
 
         $classMetadata = new ClassMetadata($reflectionClass, $modelName, $repositoryClass, $isTransient);
-        $metadataCache = $this->objectManager
-            ->getConfiguration()
-            ->getMetadataCache();
 
         if ($model) {
             $properties = $reflectionClass->getProperties();
@@ -131,27 +106,10 @@ class ClassMetadataFactory
                 $classMetadata->addProperty($propertyMetadata);
             }
 
-            $cacheKey = $this->getModelClassMetadataCacheKey($modelName);
-
-            try {
-                $metadataCache->delete($cacheKey);
-            } catch (InvalidArgumentException $e) {
-            }
-
-            try {
-                $classMetadata = $metadataCache->get($cacheKey, function () use ($classMetadata) {
-                    return $classMetadata;
-                });
-            } catch (InvalidArgumentException $e) {
-            }
+            $this->cache->add($model->getName(), $reflectionClass);
         }
 
         return $classMetadata;
-    }
-
-    private function getModelClassMetadataCacheKey(string $modelName): string
-    {
-        return sprintf('odoo_model.class_metadata.%s', $modelName);
     }
 
     public function getObjectManager(): ObjectManager
@@ -167,5 +125,10 @@ class ClassMetadataFactory
     public function getReader(): Reader
     {
         return $this->reader;
+    }
+
+    public function getCache(): MetadataCache
+    {
+        return $this->cache;
     }
 }
