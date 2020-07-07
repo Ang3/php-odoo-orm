@@ -9,6 +9,8 @@ This component allows you to manage your Odoo records as mapped objects.
 This component uses package 
 [ang3/php-odoo-api-client](https://github.com/Ang3/php-odoo-api-client) as client.
 
+**Beta stable version 0.\* - Follow package updates carefuly.**
+
 Requirements
 ============
 

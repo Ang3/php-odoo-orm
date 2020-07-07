@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "ang3/php-odoo-api-client",
-            "version": "v6.0.0",
+            "version": "v6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ang3/php-odoo-api-client.git",
-                "reference": "b41b0c030f284ba819248ba7e5113148ee22194d"
+                "reference": "f74a83d94a28aa8012431be216c4c8183da0b9fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ang3/php-odoo-api-client/zipball/b41b0c030f284ba819248ba7e5113148ee22194d",
-                "reference": "b41b0c030f284ba819248ba7e5113148ee22194d",
+                "url": "https://api.github.com/repos/Ang3/php-odoo-api-client/zipball/f74a83d94a28aa8012431be216c4c8183da0b9fe",
+                "reference": "f74a83d94a28aa8012431be216c4c8183da0b9fe",
                 "shasum": ""
             },
             "require": {
@@ -29,7 +29,6 @@
                 "psr/log": "~1.0"
             },
             "require-dev": {
-                "ang3/php-dev-binaries": "^1.0",
                 "phpunit/phpunit": "^7.0",
                 "roave/security-advisories": "dev-master",
                 "symfony/inflector": ">=3.2.0",
@@ -65,7 +64,7 @@
                 "odoo",
                 "operation"
             ],
-            "time": "2020-07-07T17:37:34+00:00"
+            "time": "2020-07-07T20:05:12+00:00"
         },
         {
             "name": "darkaonline/ripcord",
