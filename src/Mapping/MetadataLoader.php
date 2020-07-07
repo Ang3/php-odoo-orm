@@ -4,7 +4,6 @@ namespace Ang3\Component\Odoo\ORM\Mapping;
 
 use Ang3\Component\Odoo\ORM\Exception\RuntimeException;
 use Ang3\Component\Odoo\ORM\Internal\ReflectorAwareTrait;
-use Generator;
 
 class MetadataLoader
 {
@@ -22,9 +21,9 @@ class MetadataLoader
      *
      * @param string[]|string $paths
      *
-     * @return Generator|ClassMetadata[]
+     * @return ClassMetadata[]
      */
-    public function load($paths): Generator
+    public function load($paths): array
     {
         $paths = array_filter((array) $paths);
         $classes = get_declared_classes();
@@ -41,7 +40,7 @@ class MetadataLoader
             foreach ($classes as $key => $className) {
                 $reflectionClass = $reflector->getClass($className);
 
-                if (in_array($reflectionClass->getName(), $loadedClasses, true)) {
+                if (array_key_exists($reflectionClass->getName(), $loadedClasses)) {
                     continue;
                 }
 
@@ -62,10 +61,10 @@ class MetadataLoader
                 $classMetadata = $this->classMetadataFactory->getClassMetadata($reflectionClass);
 
                 $loadedFiles[] = $classFilename;
-                $loadedClasses[] = $classMetadata->getClassName();
-
-                yield $classMetadata;
+                $loadedClasses[$reflectionClass->getName()] = $classMetadata;
             }
         }
+
+        return $loadedClasses;
     }
 }
