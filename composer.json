@@ -10,13 +10,13 @@
         }
     ],
     "require": {
-        "php": "^7.4",
-        "ang3/php-odoo-api-client": "^5.1.2",
-        "symfony/cache": "^3.4 || ^4.0 || ^5.0",
-        "ocramius/proxy-manager": "^2.0",
+        "php": "^7.2.5",
+        "ang3/php-odoo-api-client": "^6.0",
+        "symfony/cache": "^4.2 || ^5.0",
+        "ocramius/proxy-manager": "^2.2",
         "doctrine/annotations": "^1.0",
-        "symfony/property-access": "^3.4 || ^4.0 || ^5.0",
-        "symfony/serializer": "^3.4 || ^4.0 || ^5.0",
+        "symfony/property-access": "^4.2 || ^5.0",
+        "symfony/serializer": "^4.2 || ^5.0",
         "symfony/string": "^5.0"
     },
     "require-dev": {

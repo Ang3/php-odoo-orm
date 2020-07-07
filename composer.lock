@@ -4,28 +4,29 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd11e71a051108ffcb27f75ea0c5b6bf",
+    "content-hash": "f1c590af76a16a76a35c5116a5e945dc",
     "packages": [
         {
             "name": "ang3/php-odoo-api-client",
-            "version": "v5.1.2",
+            "version": "v6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ang3/php-odoo-api-client.git",
-                "reference": "cf92a5fbd31413a5685eed25f6f497775da48a8d"
+                "reference": "b41b0c030f284ba819248ba7e5113148ee22194d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ang3/php-odoo-api-client/zipball/cf92a5fbd31413a5685eed25f6f497775da48a8d",
-                "reference": "cf92a5fbd31413a5685eed25f6f497775da48a8d",
+                "url": "https://api.github.com/repos/Ang3/php-odoo-api-client/zipball/b41b0c030f284ba819248ba7e5113148ee22194d",
+                "reference": "b41b0c030f284ba819248ba7e5113148ee22194d",
                 "shasum": ""
             },
             "require": {
+                "darkaonline/ripcord": "^0.1.7",
                 "ext-curl": "*",
                 "ext-json": "*",
-                "php": ">=7.2",
-                "phpxmlrpc/phpxmlrpc": "^4.0",
-                "symfony/serializer": ">=3.2.0"
+                "ext-xmlrpc": "*",
+                "php": "^7.2",
+                "psr/log": "~1.0"
             },
             "require-dev": {
                 "ang3/php-dev-binaries": "^1.0",
@@ -64,7 +65,51 @@
                 "odoo",
                 "operation"
             ],
-            "time": "2020-06-30T11:30:40+00:00"
+            "time": "2020-07-07T17:37:34+00:00"
+        },
+        {
+            "name": "darkaonline/ripcord",
+            "version": "v0.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DarkaOnLine/Ripcord.git",
+                "reference": "e37abe596f505236c489b3f8a8e6eaa2ad7d91f7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DarkaOnLine/Ripcord/zipball/e37abe596f505236c489b3f8a8e6eaa2ad7d91f7",
+                "reference": "e37abe596f505236c489b3f8a8e6eaa2ad7d91f7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.14@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ripcord\\": "src/Ripcord"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Darius Matulionis",
+                    "email": "darius@matulionis.lt"
+                }
+            ],
+            "description": "RPC client and server around PHP's xmlrpc library",
+            "keywords": [
+                "rpc",
+                "xml",
+                "xmlrpc"
+            ],
+            "time": "2019-01-02T06:13:30+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -535,57 +580,6 @@
             "time": "2020-04-13T14:42:16+00:00"
         },
         {
-            "name": "phpxmlrpc/phpxmlrpc",
-            "version": "4.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/gggeek/phpxmlrpc.git",
-                "reference": "9b400d2c102f2a55839af8f73279274ebe148526"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gggeek/phpxmlrpc/zipball/9b400d2c102f2a55839af8f73279274ebe148526",
-                "reference": "9b400d2c102f2a55839af8f73279274ebe148526",
-                "shasum": ""
-            },
-            "require": {
-                "ext-xml": "*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "codeclimate/php-test-reporter": "dev-master",
-                "docbook/docbook-xsl": "~1.78",
-                "ext-curl": "*",
-                "ext-mbstring": "*",
-                "indeyets/pake": "~1.99",
-                "phpunit/phpunit": ">=4.0.0, <6.0.0",
-                "phpunit/phpunit-selenium": "*",
-                "sami/sami": "~3.1"
-            },
-            "suggest": {
-                "ext-curl": "Needed for HTTPS and HTTP 1.1 support, NTLM Auth etc...",
-                "ext-mbstring": "Needed to allow reception of requests/responses in character sets other than ASCII,LATIN-1,UTF-8",
-                "ext-zlib": "Needed for sending compressed requests and receiving compressed responses, if cURL is not available"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PhpXmlRpc\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "A php library for building xmlrpc clients and servers",
-            "homepage": "http://gggeek.github.io/phpxmlrpc/",
-            "keywords": [
-                "webservices",
-                "xmlrpc"
-            ],
-            "time": "2020-03-04T10:26:33+00:00"
-        },
-        {
             "name": "psr/cache",
             "version": "1.0.1",
             "source": {
@@ -823,16 +817,16 @@
         },
         {
             "name": "symfony/cache-contracts",
-            "version": "v2.1.2",
+            "version": "v2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache-contracts.git",
-                "reference": "87c92f62c494626598e9148208aaa6d1716b8e3c"
+                "reference": "9771a09d2e6b84ecb8c9f0a7dbc72ee92aeba009"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/87c92f62c494626598e9148208aaa6d1716b8e3c",
-                "reference": "87c92f62c494626598e9148208aaa6d1716b8e3c",
+                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/9771a09d2e6b84ecb8c9f0a7dbc72ee92aeba009",
+                "reference": "9771a09d2e6b84ecb8c9f0a7dbc72ee92aeba009",
                 "shasum": ""
             },
             "require": {
@@ -846,6 +840,10 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.1-dev"
+                },
+                "thanks": {
+                    "name": "symfony/contracts",
+                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -891,20 +889,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-20T17:43:50+00:00"
+            "time": "2020-07-06T13:23:11+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v2.1.2",
+            "version": "v2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "dd99cb3a0aff6cadd2a8d7d7ed72c2161e218337"
+                "reference": "5e20b83385a77593259c9f8beb2c43cd03b2ac14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/dd99cb3a0aff6cadd2a8d7d7ed72c2161e218337",
-                "reference": "dd99cb3a0aff6cadd2a8d7d7ed72c2161e218337",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5e20b83385a77593259c9f8beb2c43cd03b2ac14",
+                "reference": "5e20b83385a77593259c9f8beb2c43cd03b2ac14",
                 "shasum": ""
             },
             "require": {
@@ -914,6 +912,10 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.1-dev"
+                },
+                "thanks": {
+                    "name": "symfony/contracts",
+                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -951,7 +953,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-27T08:34:37+00:00"
+            "time": "2020-06-06T08:49:21+00:00"
         },
         {
             "name": "symfony/inflector",
@@ -1691,16 +1693,16 @@
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v2.1.2",
+            "version": "v2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "66a8f0957a3ca54e4f724e49028ab19d75a8918b"
+                "reference": "58c7475e5457c5492c26cc740cc0ad7464be9442"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/66a8f0957a3ca54e4f724e49028ab19d75a8918b",
-                "reference": "66a8f0957a3ca54e4f724e49028ab19d75a8918b",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/58c7475e5457c5492c26cc740cc0ad7464be9442",
+                "reference": "58c7475e5457c5492c26cc740cc0ad7464be9442",
                 "shasum": ""
             },
             "require": {
@@ -1714,6 +1716,10 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.1-dev"
+                },
+                "thanks": {
+                    "name": "symfony/contracts",
+                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -1759,7 +1765,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-20T17:43:50+00:00"
+            "time": "2020-07-06T13:23:11+00:00"
         },
         {
             "name": "symfony/string",
@@ -2583,12 +2589,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "57353ec1a34527a2dbbd3c0fb9418ffc008c6f60"
+                "reference": "239e50ae0e1906d32b32ed58bc7d15c81bfc06f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/57353ec1a34527a2dbbd3c0fb9418ffc008c6f60",
-                "reference": "57353ec1a34527a2dbbd3c0fb9418ffc008c6f60",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/239e50ae0e1906d32b32ed58bc7d15c81bfc06f0",
+                "reference": "239e50ae0e1906d32b32ed58bc7d15c81bfc06f0",
                 "shasum": ""
             },
             "conflict": {
@@ -2657,6 +2663,7 @@
                 "friendsofsymfony/user-bundle": ">=1.2,<1.3.5",
                 "fuel/core": "<1.8.1",
                 "getgrav/grav": "<1.7-beta.8",
+                "gos/web-socket-bundle": "<1.10.4|>=2,<2.6.1|>=3,<3.3",
                 "gree/jose": "<=2.2",
                 "gregwar/rst": "<1.0.3",
                 "guzzlehttp/guzzle": ">=4-rc.2,<4.2.4|>=5,<5.3.1|>=6,<6.2.1",
@@ -2861,7 +2868,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-03T16:50:03+00:00"
+            "time": "2020-07-06T15:00:46+00:00"
         },
         {
             "name": "symfony/console",
@@ -3044,16 +3051,16 @@
         },
         {
             "name": "symfony/event-dispatcher-contracts",
-            "version": "v2.1.2",
+            "version": "v2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher-contracts.git",
-                "reference": "405952c4e90941a17e52ef7489a2bd94870bb290"
+                "reference": "f6f613d74cfc5a623fc36294d3451eb7fa5a042b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/405952c4e90941a17e52ef7489a2bd94870bb290",
-                "reference": "405952c4e90941a17e52ef7489a2bd94870bb290",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher-contracts/zipball/f6f613d74cfc5a623fc36294d3451eb7fa5a042b",
+                "reference": "f6f613d74cfc5a623fc36294d3451eb7fa5a042b",
                 "shasum": ""
             },
             "require": {
@@ -3067,6 +3074,10 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.1-dev"
+                },
+                "thanks": {
+                    "name": "symfony/contracts",
+                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -3112,7 +3123,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-05-20T17:43:50+00:00"
+            "time": "2020-07-06T13:23:11+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -3670,7 +3681,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.4"
+        "php": "^7.2.5"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
