@@ -45,7 +45,7 @@ class MetadataCache
     }
 
     /**
-     * @throws MappingException when the model is already mapped by another class.
+     * @throws MappingException when the model is already mapped by another class
      */
     public function registerModelClassMetadata(string $modelName, ReflectionClass $reflectionClass): void
     {
