@@ -34,7 +34,7 @@ class ClassMetadataFactory
      */
     public function resolveClassMetadata(string $modelName): ClassMetadata
     {
-        $className = $this->cache->resolve($modelName);
+        $className = $this->cache->resolveModelClassMetadata($modelName);
 
         if (!$className) {
             throw MappingException::modelNotSupported($modelName);
@@ -59,7 +59,7 @@ class ClassMetadataFactory
         $factory = $this;
         $reflectionClass = self::getReflector()->getClass($subject);
 
-        return $this->cache->get($reflectionClass, function () use ($factory, $reflectionClass) {
+        return $this->cache->getClassMetadata($reflectionClass, function () use ($factory, $reflectionClass) {
             return $factory->loadClassMetadata($reflectionClass);
         });
     }
@@ -106,7 +106,7 @@ class ClassMetadataFactory
                 $classMetadata->addProperty($propertyMetadata);
             }
 
-            $this->cache->add($model->getName(), $reflectionClass);
+            $this->cache->registerModelClassMetadata($model->getName(), $reflectionClass);
         }
 
         return $classMetadata;

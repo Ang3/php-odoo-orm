@@ -31,7 +31,7 @@ class MetadataCache
     /**
      * @throws RuntimeException on cache errors
      */
-    public function get(ReflectionClass $reflectionClass, callable $loader): ClassMetadata
+    public function getClassMetadata(ReflectionClass $reflectionClass, callable $loader): ClassMetadata
     {
         $cacheKey = $this->getClassMetadataCacheKey($reflectionClass);
 
@@ -47,7 +47,7 @@ class MetadataCache
     /**
      * @throws MappingException when the model is already mapped by another class.
      */
-    public function add(string $modelName, ReflectionClass $reflectionClass): void
+    public function registerModelClassMetadata(string $modelName, ReflectionClass $reflectionClass): void
     {
         $classMap = $this->classMap;
 
@@ -73,7 +73,7 @@ class MetadataCache
         }
     }
 
-    public function resolve(string $modelName): ?string
+    public function resolveModelClassMetadata(string $modelName): ?string
     {
         $classMap = $this->getClassMap();
 
@@ -104,12 +104,13 @@ class MetadataCache
 
     public function getClassMetadataCacheKey(ReflectionClass $reflectionClass): string
     {
-        return s(sprintf(self::CLASS_METADATA_CACHE_KEY, $this->classMetadataFactory
+        return sprintf(self::CLASS_METADATA_CACHE_KEY, $this->classMetadataFactory
             ->getObjectManager()
             ->getClient()
-            ->getIdentifier(), $reflectionClass->getName()))
-            ->replaceMatches('#[^a-zA-Z0-9_]+#', '_')
-            ->toString();
+            ->getIdentifier(), s($reflectionClass->getName())
+                ->replaceMatches('#[^a-zA-Z0-9_]+#', '_')
+                ->toString()
+        );
     }
 
     public function getClassMapCacheKey(): string
