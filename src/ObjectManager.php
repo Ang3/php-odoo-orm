@@ -25,8 +25,8 @@ class ObjectManager
     {
         $this->client = $client;
         $this->configuration = $configuration;
-        $this->classMetadataFactory = new ClassMetadataFactory($this, $reader);
         $this->schema = new Schema($this);
+        $this->classMetadataFactory = new ClassMetadataFactory($this, $reader);
         $this->unitOfWork = new UnitOfWork($this);
     }
 
