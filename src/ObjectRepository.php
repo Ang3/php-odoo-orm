@@ -58,7 +58,7 @@ class ObjectRepository
         $unitOfWork = $this->objectManager->getUnitOfWork();
         $record = $unitOfWork->loadRecord($this->classMetadata, $id);
 
-        return $unitOfWork->denormalize($record, $this->classMetadata);
+        return $record ? $unitOfWork->denormalize($record, $this->classMetadata) : null;
     }
 
     public function findOneBy(DomainInterface $domain, array $orders = [], int $offset = 0): ?object
