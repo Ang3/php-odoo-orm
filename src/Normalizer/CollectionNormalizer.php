@@ -3,15 +3,12 @@
 namespace Ang3\Component\Odoo\ORM\Normalizer;
 
 use Ang3\Component\Odoo\Expression\ExpressionBuilder;
-use Ang3\Component\Odoo\ORM\Internal\ReflectorAwareTrait;
 use Ang3\Component\Odoo\ORM\Model\Collection;
 use ProxyManager\Proxy\GhostObjectInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerException;
 
 class CollectionNormalizer extends AbstractNormalizer
 {
-    use ReflectorAwareTrait;
-
     /**
      * @var ExpressionBuilder
      */
@@ -38,7 +35,7 @@ class CollectionNormalizer extends AbstractNormalizer
             $recordId = $record->getId();
 
             if (!$recordId) {
-                if($record instanceof GhostObjectInterface && !$record->isProxyInitialized()) {
+                if ($record instanceof GhostObjectInterface && !$record->isProxyInitialized()) {
                     continue;
                 }
 
@@ -49,7 +46,7 @@ class CollectionNormalizer extends AbstractNormalizer
             $newStoredIds[] = $recordId;
 
             if (in_array($recordId, $storedIds, true)) {
-                if($record instanceof GhostObjectInterface && !$record->isProxyInitialized()) {
+                if ($record instanceof GhostObjectInterface && !$record->isProxyInitialized()) {
                     continue;
                 }
 
