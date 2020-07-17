@@ -38,27 +38,26 @@ class CollectionNormalizer extends AbstractNormalizer
             $recordId = $record->getId();
 
             if (!$recordId) {
+                if($record instanceof GhostObjectInterface && !$record->isProxyInitialized()) {
+                    continue;
+                }
+
                 $commands[] = $this->expressionBuilder->createRecord($this->getRecordData($record));
                 continue;
             }
 
             $newStoredIds[] = $recordId;
 
-            if (!($record instanceof GhostObjectInterface)) {
-                if (in_array($recordId, $storedIds, true)) {
-                    $commands[] = $this->expressionBuilder->updateRecord($recordId, $this->getRecordData($record));
+            if (in_array($recordId, $storedIds, true)) {
+                if($record instanceof GhostObjectInterface && !$record->isProxyInitialized()) {
                     continue;
                 }
 
-                $commands[] = $this->expressionBuilder->addRecord($recordId);
+                $commands[] = $this->expressionBuilder->updateRecord($recordId, $this->getRecordData($record));
                 continue;
             }
 
-            if (!$record->isProxyInitialized()) {
-                continue;
-            }
-
-            $commands[] = $this->expressionBuilder->updateRecord($recordId, $this->getRecordData($record));
+            $commands[] = $this->expressionBuilder->addRecord($recordId);
         }
 
         foreach ($storedIds as $storedRecordId) {
