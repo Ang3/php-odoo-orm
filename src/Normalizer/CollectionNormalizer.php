@@ -3,15 +3,12 @@
 namespace Ang3\Component\Odoo\ORM\Normalizer;
 
 use Ang3\Component\Odoo\Expression\ExpressionBuilder;
-use Ang3\Component\Odoo\ORM\Internal\ReflectorAwareTrait;
 use Ang3\Component\Odoo\ORM\Model\Collection;
 use ProxyManager\Proxy\GhostObjectInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerException;
 
 class CollectionNormalizer extends AbstractNormalizer
 {
-    use ReflectorAwareTrait;
-
     /**
      * @var ExpressionBuilder
      */
@@ -38,27 +35,26 @@ class CollectionNormalizer extends AbstractNormalizer
             $recordId = $record->getId();
 
             if (!$recordId) {
+                if ($record instanceof GhostObjectInterface && !$record->isProxyInitialized()) {
+                    continue;
+                }
+
                 $commands[] = $this->expressionBuilder->createRecord($this->getRecordData($record));
                 continue;
             }
 
             $newStoredIds[] = $recordId;
 
-            if (!($record instanceof GhostObjectInterface)) {
-                if (in_array($recordId, $storedIds, true)) {
-                    $commands[] = $this->expressionBuilder->updateRecord($recordId, $this->getRecordData($record));
+            if (in_array($recordId, $storedIds, true)) {
+                if ($record instanceof GhostObjectInterface && !$record->isProxyInitialized()) {
                     continue;
                 }
 
-                $commands[] = $this->expressionBuilder->addRecord($recordId);
+                $commands[] = $this->expressionBuilder->updateRecord($recordId, $this->getRecordData($record));
                 continue;
             }
 
-            if (!$record->isProxyInitialized()) {
-                continue;
-            }
-
-            $commands[] = $this->expressionBuilder->updateRecord($recordId, $this->getRecordData($record));
+            $commands[] = $this->expressionBuilder->addRecord($recordId);
         }
 
         foreach ($storedIds as $storedRecordId) {
