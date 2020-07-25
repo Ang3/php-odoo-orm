@@ -66,7 +66,7 @@ class DomainStringNormalizer extends AbstractNormalizer
 
         $value = (string) $data;
 
-        if (is_string($value) && preg_match('#^context:([a-zA-Z0-9_]+)#', $value, $matches)) {
+        if (is_string($value) && preg_match('#^context:(.*)#', $value, $matches)) {
             return $matches[1];
         }
 
