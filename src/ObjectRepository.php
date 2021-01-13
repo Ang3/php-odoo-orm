@@ -97,7 +97,9 @@ class ObjectRepository
      */
     public function searchAll(array $orders = [], int $limit = null, int $offset = 0): array
     {
-        return $this->search(null, $orders, $limit, $offset);
+        return $this->objectManager
+            ->getClient()
+            ->searchAll($this->getModelName(), $this->prepareOptions($orders, $limit, $offset));
     }
 
     public function searchOne(DomainInterface $domain, array $orders = [], int $offset = 0): ?int
