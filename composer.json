@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "php": "^7.2.5",
-        "ang3/php-odoo-api-client": "^6.0",
+        "php": "^7.2.5 || ^8.0",
+        "ang3/php-odoo-api-client": "^7.0",
         "symfony/cache": "^4.2 || ^5.0",
         "ocramius/proxy-manager": "^2.2",
         "doctrine/annotations": "^1.0",
